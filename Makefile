@@ -21,6 +21,7 @@ $(shell sed -i '/#define DEFAULT_HIDDENBITSKEY ".*"/c\#define DEFAULT_HIDDENBITS
 endif
 
 # Compiler options:
+PROTOC ?= protoc
 CFLAGS   += -D_GNU_SOURCE -DDEBUG -g -Wall -fPIC -std=c99
 CXXFLAGS += -D_GNU_SOURCE -DDEBUG -g -Wall -fPIC -std=c++11
 deps = jansson libbitcoin libcurl libgit2 libqrencode libsecp256k1 libssl libzmq protobuf-lite zlib
@@ -136,11 +137,11 @@ tar:
 # Automatic dependency rules:
 $(WORK_DIR)/%.o: %.c | $(generated_headers)
 	@mkdir -p $(dir $@)
-	$(RUN) $(CC) -c -MD $(CFLAGS) -o $@ $<
+	$(RUN) $(CC) -c -MD $(CPPFLAGS) $(CFLAGS) -o $@ $<
 
 $(WORK_DIR)/%.o: %.cpp | $(generated_headers)
 	@mkdir -p $(dir $@)
-	$(RUN) $(CXX) -c -MD $(CXXFLAGS) -o $@ $<
+	$(RUN) $(CXX) -c -MD $(CPPFLAGS) $(CXXFLAGS) -o $@ $<
 
 include $(wildcard $(WORK_DIR)/*/*.d $(WORK_DIR)/*/*/*.d $(WORK_DIR)/*/*/*/*.d)
 %.h: ;
@@ -149,7 +150,7 @@ include $(wildcard $(WORK_DIR)/*/*.d $(WORK_DIR)/*/*/*.d $(WORK_DIR)/*/*/*/*.d)
 # Protobuf files:
 codegen/paymentrequest.pb.h codegen/paymentrequest.pb.cc: abcd/bitcoin/spend/paymentrequest.proto
 	@mkdir -p $(dir $@)
-	$(RUN) protoc --cpp_out=$(dir $@) --proto_path=$(dir $<) $<
+	$(RUN) $(PROTOC) --cpp_out=$(dir $@) --proto_path=$(dir $<) $<
 
 codegen/paymentrequest.pb.cpp: codegen/paymentrequest.pb.cc
 	@cp $^ $@

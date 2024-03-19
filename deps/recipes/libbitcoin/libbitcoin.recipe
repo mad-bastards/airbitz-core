@@ -6,6 +6,7 @@ source="https://github.com/libbitcoin/libbitcoin.git#7a1a9d43"
 build() {
     echo Patching...
     patch -p1 < $recipe_dir/config.patch
+    echo "#include <stddef.h>" >> ./include/bitcoin/bitcoin/compat.hpp
 
     echo Building...
     autoreconf -i

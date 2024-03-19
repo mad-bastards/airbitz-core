@@ -1,4 +1,4 @@
-depends="openssl"
+depends="openssl zlib"
 inherit lib
 
 version="7.50.3"
@@ -10,6 +10,7 @@ build() {
     ./configure --enable-static --disable-shared \
         --enable-ipv6 \
         --disable-ldap --without-libssh2 --without-librtmp --without-libidn \
+        --without-nghttp2 --without-libpsl \
         --host=$cross --prefix=$install_dir
     make
     make install
