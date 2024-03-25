@@ -5,6 +5,10 @@ source="https://github.com/jedisct1/libsodium/releases/download/$version/libsodi
 
 build() {
     cd libsodium-$version
+
+    sed -e 's/typedef CRYPTO_ALIGN(64) struct/typedef struct/' -i src/libsodium/include/sodium/crypto_generichash_blake2b.h
+    sed -e 's/ALIGN( 64 )//g' -i src/libsodium/crypto_generichash/blake2/ref/blake2.h
+
     ./autogen.sh
     ./configure --enable-static --disable-shared --host=$cross --prefix=$install_dir
     make

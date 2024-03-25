@@ -13,6 +13,10 @@ build() {
     export CFLAGS="$CFLAGS -O2"
     export CXXFLAGS="$CXXFLAGS -O2"
 
+    if [ $target = native ]; then
+        export PROTOC=$install_dir/bin/protoc
+    fi
+
     # Build:
     make $output V=1
 
