@@ -3,7 +3,9 @@ inherit lib
 
 version="4.1.5"
 source="https://github.com/zeromq/cppzmq.git#ac705f604701e2ca1643fa31bae240f9da8b9b9a
-        http://download.openpkg.org/components/cache/zmq/zeromq-$version.tar.gz#2b7490b77860be3060b1b1f92cd73184d309ca69"
+        https://github.com/zeromq/zeromq4-1/releases/download/v4.1.5/zeromq-4.1.5.tar.gz"
+#source="https://github.com/zeromq/cppzmq.git#e2d8c4477d8c53ae2b60c7fd0efe4f45c9b0c697
+#        http://download.openpkg.org/components/cache/zmq/zeromq-$version.tar.gz"
 
 build() {
     cd zeromq-$version
