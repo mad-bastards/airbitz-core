@@ -11,7 +11,9 @@ build() {
     mkdir -p m4
     grep -v -e AM_PATH_SDL -e AM_ICONV_LINK configure.ac > configure.ac.new
     mv configure.ac.new configure.ac
-    ./autogen.sh
+    autoconf() { autoconf2.69 "$@"; }
+    autoheader() { autoheader2.69 "$@"; }
+    source ./autogen.sh
 
     echo Building...
     ./configure --enable-static --disable-shared --host=$cross --without-tools --prefix=$install_dir
